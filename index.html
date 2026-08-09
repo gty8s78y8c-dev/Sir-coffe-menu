@@ -1,756 +1,98 @@
-<!DOCTYPE html>
+
+html = r'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سِر | Coffee & More</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-background:#0d0a08;
-color:#fff;
-font-family:Arial,"Tahoma",sans-serif;
-}
-
-.container{
-max-width:760px;
-margin:auto;
-}
-
-/* HEADER */
-header{
-text-align:center;
-padding:28px 18px 22px;
-background:
-radial-gradient(circle at top,#392510 0%,#17100b 38%,#0d0a08 75%);
-border-bottom:1px solid #3d2a17;
-}
-
-.logo{
-width:82px;
-height:82px;
-margin:auto;
-border-radius:24px;
-background:#f5eee2;
-color:#13788c;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:40px;
-font-weight:bold;
-border:1px solid #b98735;
-}
-
-h1{
-margin:12px 0 2px;
-font-size:27px;
-}
-
-.subtitle{
-color:#aaa096;
-font-size:13px;
-}
-
-.location{
-margin-top:9px;
-font-size:12px;
-color:#bcb1a5;
-}
-
-.buttons{
-display:flex;
-justify-content:center;
-gap:8px;
-margin-top:17px;
-flex-wrap:wrap;
-}
-
-.buttons a{
-padding:9px 17px;
-border-radius:22px;
-border:1px solid #75501d;
-background:#1c140e;
-color:#e8bd5c;
-font-size:12px;
-font-weight:bold;
-text-decoration:none;
-}
-
-/* CATEGORY BAR */
-.nav{
-position:sticky;
-top:0;
-z-index:10;
-display:flex;
-gap:8px;
-overflow-x:auto;
-padding:11px 13px;
-background:rgba(13,10,8,.96);
-border-bottom:1px solid #2c2118;
-}
-
-.nav a{
-white-space:nowrap;
-padding:9px 16px;
-border-radius:22px;
-background:#18120e;
-border:1px solid #30251c;
-color:#d5cbc0;
-font-size:12px;
-text-decoration:none;
-}
-
-.nav a:first-child{
-background:#d49b35;
-color:#17100a;
-}
-
-/* SEARCH */
-.search{
-margin:15px;
-}
-
-.search input{
-width:100%;
-padding:13px 16px;
-border-radius:15px;
-border:1px solid #34271c;
-background:#15110e;
-color:#fff;
-font-size:13px;
-outline:none;
-}
-
-.search input:focus{
-border-color:#a8782b;
-}
-
-/* SECTIONS */
-section{
-padding:5px 15px 22px;
-scroll-margin-top:65px;
-}
-
-.section-title{
-display:flex;
-align-items:center;
-gap:9px;
-margin:10px 0 13px;
-}
-
-.section-title h2{
-margin:0;
-font-size:20px;
-}
-
-.count{
-background:#241b15;
-color:#bdb1a4;
-border-radius:20px;
-padding:5px 9px;
-font-size:10px;
-}
-
-.line{
-height:1px;
-flex:1;
-background:linear-gradient(to left,transparent,#62431d);
-}
-
-/* FEATURE */
-.feature{
-height:245px;
-border-radius:20px;
-overflow:hidden;
-position:relative;
-margin-bottom:10px;
-border:1px solid #4b331a;
-background:linear-gradient(135deg,#24170d,#0e0b09);
-}
-
-.feature:after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(transparent 35%,rgba(0,0,0,.9));
-}
-
-.feature-content{
-position:absolute;
-z-index:2;
-bottom:15px;
-right:17px;
-left:17px;
-display:flex;
-justify-content:space-between;
-align-items:end;
-}
-
-.feature-name{
-font-size:21px;
-font-weight:bold;
-}
-
-.price{
-color:#f2c765;
-font-weight:bold;
-font-size:14px;
-}
-
-/* ITEMS */
-.item{
-display:flex;
-align-items:center;
-gap:12px;
-padding:9px;
-margin-bottom:8px;
-min-height:76px;
-background:linear-gradient(135deg,#18130f,#110e0c);
-border:1px solid #292019;
-border-radius:17px;
-}
-
-.item:hover{
-border-color:#68471d;
-}
-
-.item img{
-width:76px;
-height:60px;
-object-fit:cover;
-border-radius:13px;
-background:#211811;
-}
-
-.item-info{
-flex:1;
-}
-
-.item-name{
-font-size:14px;
-font-weight:bold;
-}
-
-.item-price{
-margin-top:4px;
-font-size:13px;
-color:#efc45e;
-font-weight:bold;
-}
-
-.new{
-font-size:9px;
-background:#70410e;
-color:#ffd879;
-padding:3px 7px;
-border-radius:10px;
-margin-right:5px;
-}
-
-/* FOOTER */
-footer{
-text-align:center;
-padding:30px 15px 40px;
-border-top:1px solid #2b2118;
-color:#8d8278;
-font-size:11px;
-}
-
-footer strong{
-display:block;
-font-size:19px;
-color:#ddd0c0;
-margin-bottom:5px;
-}
-
-@media(max-width:430px){
-h1{font-size:24px}
-.section-title h2{font-size:18px}
-.item img{width:70px;height:57px}
-}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0c0907;color:#fff;font-family:Arial,Tahoma,sans-serif}
+.container{max-width:760px;margin:auto}
+header{padding:30px 18px 22px;text-align:center;background:radial-gradient(circle at top,#3b2814,#17100b 45%,#0c0907 80%);border-bottom:1px solid #4b3318}
+.logo{width:82px;height:82px;margin:auto;border-radius:24px;background:#f4eee4;color:#168092;border:1px solid #b88736;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold}
+h1{margin:12px 0 4px;font-size:27px}
+.subtitle,.location{color:#aaa096;font-size:13px}
+.location{margin-top:8px}
+.buttons{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:17px}
+.buttons a{padding:10px 17px;border-radius:24px;background:#1c140e;border:1px solid #76511e;color:#edc260;text-decoration:none;font-size:12px;font-weight:bold}
+.nav{position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow-x:auto;padding:11px 13px;background:rgba(12,9,7,.97);border-bottom:1px solid #2c2117}
+.nav a{white-space:nowrap;padding:9px 16px;border-radius:22px;background:#18120e;border:1px solid #30251c;color:#d8cec3;text-decoration:none;font-size:12px}
+.nav a:first-child{background:#d49b35;color:#17100a}
+.search{padding:15px}
+.search input{width:100%;padding:13px 16px;border-radius:15px;border:1px solid #38291d;background:#15110e;color:#fff;font-size:13px;outline:0}
+section{padding:5px 15px 22px;scroll-margin-top:65px}
+.title{display:flex;align-items:center;gap:9px;margin:10px 0 13px}
+.title h2{margin:0;font-size:19px}
+.count{background:#241b15;color:#bdb1a4;border-radius:20px;padding:5px 9px;font-size:10px}
+.line{height:1px;flex:1;background:linear-gradient(to left,transparent,#62431d)}
+.item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:8px;min-height:70px;background:linear-gradient(135deg,#18130f,#110e0c);border:1px solid #292019;border-radius:17px}
+.item-info{flex:1}
+.name{font-size:14px;font-weight:bold}
+.price{margin-top:5px;color:#efc45e;font-size:13px;font-weight:bold}
+.badge{font-size:9px;background:#70410e;color:#ffd879;padding:3px 7px;border-radius:10px;margin-right:5px}
+footer{text-align:center;padding:30px 15px 45px;border-top:1px solid #2b2118;color:#8d8278;font-size:11px}
+footer strong{display:block;font-size:20px;color:#ddd0c0;margin-bottom:5px}
+@media(max-width:430px){h1{font-size:24px}.title h2{font-size:18px}}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
 <header>
-
 <div class="logo">سِر</div>
-
 <h1>سِر Coffee & More</h1>
-
 <div class="subtitle">لكل حبة قهوة حكاية</div>
-
-<div class="location">
-📍 الموصل — حي المهندسين مقابل كلية الحقوق
-</div>
-
+<div class="location">📍 الموصل — حي المهندسين مقابل كلية الحقوق</div>
 <div class="buttons">
 <a href="tel:07838868625">☎ اتصال</a>
 <a href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic">⌖ الموقع</a>
 <a href="https://www.instagram.com/srrcoffeshop/">◎ إنستغرام</a>
 </div>
-
 </header>
 
 <nav class="nav">
-
-<a href="#cold">الكل</a>
-<a href="#cold">باردة</a>
-<a href="#hot">ساخنة</a>
-<a href="#matcha">ماتشا</a>
-<a href="#mojito">موهيتو</a>
-<a href="#smoothie">سموذي</a>
-<a href="#tea">آيس تي</a>
-<a href="#frappe">فرابيه</a>
-<a href="#milkshake">ميلك شيك</a>
-<a href="#specialty">مختصة</a>
-<a href="#desserts">حلويات</a>
-
+<a href="#all">الكل</a><a href="#cold">باردة</a><a href="#hot">ساخنة</a><a href="#matcha">ماتشا</a><a href="#mojito">موهيتو</a><a href="#smoothie">سموذي</a><a href="#tea">آيس تي</a><a href="#frappe">فرابيه</a><a href="#milkshake">ميلك شيك</a><a href="#specialty">مختصة</a><a href="#desserts">حلويات</a>
 </nav>
 
-<div class="search">
-<input type="text" id="search" placeholder="🔍 ابحث عن مشروب أو حلى...">
-</div>
+<div class="search"><input id="search" placeholder="🔍 ابحث عن مشروب أو حلى..."></div>
+<div id="menu"></div>
 
-<!-- مشروبات باردة -->
-
-<section id="cold">
-
-<div class="section-title">
-<h2>مشروبات باردة (قهوة)</h2>
-<span class="count">12 عنصر</span>
-<span class="line"></span>
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">لاتيه سر</div>
-<div class="item-price">5000 د.ع</div>
-</div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">سر كلاوود <span class="new">NEW</span></div>
-<div class="item-price">5000 د.ع</div>
-</div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">امريكانو</div><div class="item-price">3500 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">امريكانو برتقال</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه كراميل</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">سبانش لاتيه</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه فانيلا</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">موكا</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه بستاشيو</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه تيراميسو</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه كوكيز</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info"><div class="item-name">لاتيه تمر</div><div class="item-price">4000 د.ع</div></div>
-<img src="" alt="">
-</div>
-
-</section>
-
-<!-- ساخنة -->
-
-<section id="hot">
-
-<div class="section-title">
-<h2>مشروبات ساخنة (قهوة)</h2>
-<span class="count">16 عنصر</span>
-<span class="line"></span>
+<footer><strong>سِر</strong>لكل حبة قهوة حكاية ☕</footer>
 </div>
 
 <script>
-const hot=[
-["اسبريسو","3000"],
-["اسبريسو مكياتو","4000"],
-["ربستريتو","4000"],
-["كورتادو","4000"],
-["فلات وايت","4000"],
-["كابتشينو","4000"],
-["لاتيه كلاسيك","4000"],
-["لاتيه بندق","4000"],
-["اسبانش لاتيه","4000"],
-["موكا","4000"],
-["لاتيه كراميل","4000"],
-["لاتيه فانيلا","4000"],
-["لاتيه بستاشيو","4000"],
-["هوت شوكليت","4000"],
-["سحلب","3000"],
-["قهوة تركية","3000"]
+const sections=[
+["cold","مشروبات باردة (قهوة)",[
+["لاتيه سر","5000"],["سر كلاوود","5000","NEW"],["امريكانو","3500"],["امريكانو برتقال","4000"],["لاتيه كراميل","4000"],["سبانش لاتيه","4000"],["لاتيه فانيلا","4000"],["موكا","4000"],["لاتيه بستاشيو","4000"],["لاتيه تيراميسو","4000"],["لاتيه كوكيز","4000"],["لاتيه تمر","4000"]]],
+["hot","مشروبات ساخنة (قهوة)",[
+["اسبريسو","3000"],["اسبريسو مكياتو","4000"],["ربستريتو","4000"],["كورتادو","4000"],["فلات وايت","4000"],["كابتشينو","4000"],["لاتيه كلاسيك","4000"],["لاتيه بندق","4000"],["اسبانش لاتيه","4000"],["موكا","4000"],["لاتيه كراميل","4000"],["لاتيه فانيلا","4000"],["لاتيه بستاشيو","4000"],["هوت شوكليت","4000"],["سحلب","3000"],["قهوة تركية","3000"]]],
+["matcha","ماتشا",[["كلاسيك","5000"],["فانيلا","5000"],["فراولة","5000"],["ماتشا كلاوود","6000"]]],
+["mojito","موهيتو",[["موهيتو سر","4000"],["موهيتو كلاسيك","4000"],["فراوله","4000"],["رمان","4000"],["باشن فروت","4000"],["بلو بيري","4000"],["كيوي","4000"],["كرز","4000"],["ركي","4000"],["اناناس","4000"]]],
+["smoothie","سموذي",[["فراوله","4000"],["مانجا","4000"],["باشن فروت","4000"],["خوخ","4000"],["بلو بيري","4000"],["كيوي","4000"]]],
+["tea","آيس تي",[["خوخ","4000"],["رمان","4000"],["ليمون ونعناع","4000"],["فراوله","4000"],["باشن فروت","4000"],["بلو بيري","4000"],["تفاح أخضر","4000"]]],
+["frappe","فرابيه",[["كراميل","4000"],["موكا","4000"],["بستاشيو","4000"]]],
+["hibiscus","كركديه",[["كركديه","4000"],["كركديه سر","5000"]]],
+["milkshake","ميلك شيك",[["اوريو","4000"],["لوتس","4000"],["موكا","4000"],["بستاشيو","4000"],["فراوله","4000"]]],
+["specialty","قهوة مختصة",[["كولد برو","حسب الاختيار"],["اسبريسو مختص","حسب الاختيار"],["V60","حسب الاختيار"]]],
+["desserts","حلويات",[["مافن","3000"],["سندويتش ستراكنوف","4000"],["براونيز","3000"],["كرواسون","4000"],["كوكيز","2000"],["سان سبيستيان","5000"],["ميني جيز كيك","3000"]]]
 ];
 
-document.write(hot.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- ماتشا -->
-
-<section id="matcha">
-
-<div class="section-title">
-<h2>ماتشا</h2>
-<span class="count">4 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const matcha=[
-["كلاسيك","5000"],
-["فانيلا","5000"],
-["فراولة","5000"],
-["ماتشا كلاوود","6000"]
-];
-
-document.write(matcha.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- موهيتو -->
-
-<section id="mojito">
-
-<div class="section-title">
-<h2>موهيتو</h2>
-<span class="count">10 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const mojito=[
-["موهيتو سر","4000"],
-["موهيتو كلاسيك","4000"],
-["فراوله","4000"],
-["رمان","4000"],
-["باشن فروت","4000"],
-["بلو بيري","4000"],
-["كيوي","4000"],
-["كرز","4000"],
-["ركي","4000"],
-["اناناس","4000"]
-];
-
-document.write(mojito.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- سموذي -->
-
-<section id="smoothie">
-
-<div class="section-title">
-<h2>سموذي</h2>
-<span class="count">6 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const smoothie=[
-["فراوله","4000"],
-["مانجا","4000"],
-["باشن فروت","4000"],
-["خوخ","4000"],
-["بلو بيري","4000"],
-["كيوي","4000"]
-];
-
-document.write(smoothie.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- ايس تي -->
-
-<section id="tea">
-
-<div class="section-title">
-<h2>آيس تي</h2>
-<span class="count">7 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const tea=[
-["خوخ","4000"],
-["رمان","4000"],
-["ليمون ونعناع","4000"],
-["فراوله","4000"],
-["باشن فروت","4000"],
-["بلو بيري","4000"],
-["تفاح أخضر","4000"]
-];
-
-document.write(tea.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- فرابيه -->
-
-<section id="frappe">
-
-<div class="section-title">
-<h2>فرابيه</h2>
-<span class="count">3 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const frappe=[
-["كراميل","4000"],
-["موكا","4000"],
-["بستاشيو","4000"]
-];
-
-document.write(frappe.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- كركديه -->
-
-<section>
-
-<div class="section-title">
-<h2>كركديه</h2>
-<span class="count">2 عناصر</span>
-<span class="line"></span>
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">كركديه</div>
-<div class="item-price">4000 د.ع</div>
-</div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">كركديه سر</div>
-<div class="item-price">5000 د.ع</div>
-</div>
-<img src="" alt="">
-</div>
-
-</section>
-
-<!-- ميلك شيك -->
-
-<section id="milkshake">
-
-<div class="section-title">
-<h2>ميلك شيك</h2>
-<span class="count">5 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const milkshake=[
-["اوريو","4000"],
-["لوتس","4000"],
-["موكا","4000"],
-["بستاشيو","4000"],
-["فراوله","4000"]
-];
-
-document.write(milkshake.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<!-- مختصة -->
-
-<section id="specialty">
-
-<div class="section-title">
-<h2>قهوة مختصة</h2>
-<span class="count">3 عناصر</span>
-<span class="line"></span>
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">كولد برو</div>
-<div class="item-price">حسب الاختيار</div>
-</div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">اسبريسو مختص</div>
-<div class="item-price">حسب الاختيار</div>
-</div>
-<img src="" alt="">
-</div>
-
-<div class="item">
-<div class="item-info">
-<div class="item-name">V60</div>
-<div class="item-price">حسب الاختيار</div>
-</div>
-<img src="" alt="">
-</div>
-
-</section>
-
-<!-- حلويات -->
-
-<section id="desserts">
-
-<div class="section-title">
-<h2>حلويات</h2>
-<span class="count">7 عناصر</span>
-<span class="line"></span>
-</div>
-
-<script>
-const desserts=[
-["مافن","3000"],
-["سندويتش ستراكنوف","4000"],
-["براونيز","3000"],
-["كرواسون","4000"],
-["كوكيز","2000"],
-["سان سبيستيان","5000"],
-["ميني جيز كيك","3000"]
-];
-
-document.write(desserts.map(x=>`
-<div class="item">
-<div class="item-info">
-<div class="item-name">${x[0]}</div>
-<div class="item-price">${x[1]} د.ع</div>
-</div>
-<img src="" alt="">
-</div>`).join(""));
-</script>
-
-</section>
-
-<footer>
-<strong>سِر</strong>
-لكل حبة قهوة حكاية ☕
-</footer>
-
-</div>
-
-<script>
-const input=document.getElementById("search");
-
-input.addEventListener("input",function(){
-
-const value=this.value.trim().toLowerCase();
-
-document.querySelectorAll(".item").forEach(item=>{
-
-const text=item.innerText.toLowerCase();
-
-item.style.display=
-text.includes(value) ? "flex" : "none";
-
-});
-
+const menu=document.getElementById("menu");
+menu.innerHTML=sections.map(s=>`
+<section id="${s[0]}">
+<div class="title"><h2>${s[1]}</h2><span class="count">${s[2].length} عناصر</span><span class="line"></span></div>
+${s[2].map(x=>`<div class="item"><div class="item-info"><div class="name">${x[0]} ${x[2]?`<span class="badge">${x[2]}</span>`:""}</div><div class="price">${x[1]}${x[1].match(/^\\d/)?" د.ع":""}</div></div></div>`).join("")}
+</section>`).join("");
+
+document.getElementById("search").addEventListener("input",e=>{
+const q=e.target.value.trim().toLowerCase();
+document.querySelectorAll(".item").forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q)?"flex":"none");
 });
 </script>
-
 </body>
-</html>
+</html>'''
+path="/mnt/data/index.html"
+with open(path,"w",encoding="utf-8") as f:
+    f.write(html)
+print(path)
