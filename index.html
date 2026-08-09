@@ -1,98 +1,324 @@
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0a08">
 <title>سِر | Coffee & More</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+:root{
+  --bg:#0c0907; --card:#15110e; --card2:#1b1511;
+  --gold:#d9a441; --gold2:#f0c96d; --text:#fffaf2;
+  --muted:#a69b8d; --line:#2b2119;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:#0c0907;color:#fff;font-family:Arial,Tahoma,sans-serif}
-.container{max-width:760px;margin:auto}
-header{padding:30px 18px 22px;text-align:center;background:radial-gradient(circle at top,#3b2814,#17100b 45%,#0c0907 80%);border-bottom:1px solid #4b3318}
-.logo{width:82px;height:82px;margin:auto;border-radius:24px;background:#f4eee4;color:#168092;border:1px solid #b88736;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold}
-h1{margin:12px 0 4px;font-size:27px}
-.subtitle,.location{color:#aaa096;font-size:13px}
-.location{margin-top:8px}
-.buttons{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:17px}
-.buttons a{padding:10px 17px;border-radius:24px;background:#1c140e;border:1px solid #76511e;color:#edc260;text-decoration:none;font-size:12px;font-weight:bold}
-.nav{position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow-x:auto;padding:11px 13px;background:rgba(12,9,7,.97);border-bottom:1px solid #2c2117}
-.nav a{white-space:nowrap;padding:9px 16px;border-radius:22px;background:#18120e;border:1px solid #30251c;color:#d8cec3;text-decoration:none;font-size:12px}
-.nav a:first-child{background:#d49b35;color:#17100a}
-.search{padding:15px}
-.search input{width:100%;padding:13px 16px;border-radius:15px;border:1px solid #38291d;background:#15110e;color:#fff;font-size:13px;outline:0}
-section{padding:5px 15px 22px;scroll-margin-top:65px}
-.title{display:flex;align-items:center;gap:9px;margin:10px 0 13px}
-.title h2{margin:0;font-size:19px}
-.count{background:#241b15;color:#bdb1a4;border-radius:20px;padding:5px 9px;font-size:10px}
-.line{height:1px;flex:1;background:linear-gradient(to left,transparent,#62431d)}
-.item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:8px;min-height:70px;background:linear-gradient(135deg,#18130f,#110e0c);border:1px solid #292019;border-radius:17px}
-.item-info{flex:1}
-.name{font-size:14px;font-weight:bold}
-.price{margin-top:5px;color:#efc45e;font-size:13px;font-weight:bold}
-.badge{font-size:9px;background:#70410e;color:#ffd879;padding:3px 7px;border-radius:10px;margin-right:5px}
-footer{text-align:center;padding:30px 15px 45px;border-top:1px solid #2b2118;color:#8d8278;font-size:11px}
-footer strong{display:block;font-size:20px;color:#ddd0c0;margin-bottom:5px}
-@media(max-width:430px){h1{font-size:24px}.title h2{font-size:18px}}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Cairo,Arial,sans-serif;
+}
+a{text-decoration:none;color:inherit}
+.page{max-width:760px;margin:auto;min-height:100vh}
+
+/* HERO */
+.hero{
+  padding:24px 18px 20px;text-align:center;
+  background:
+    radial-gradient(circle at 50% -20%,rgba(217,164,65,.20),transparent 45%),
+    linear-gradient(180deg,#17100b 0%,#0d0a08 100%);
+  border-bottom:1px solid #332315;
+}
+.logo{
+  width:82px;height:82px;margin:auto;border-radius:24px;
+  display:grid;place-items:center;
+  border:1px solid #b77d23;background:#f6eee0;color:#126f80;
+  font-size:39px;font-weight:800;box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+.hero h1{margin:13px 0 0;font-size:28px;font-weight:800}
+.hero .sub{margin:3px 0 0;color:#b9aea0;font-size:13px}
+.location{margin:10px 0 0;color:#c8bcad;font-size:12px}
+.actions{display:flex;justify-content:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+.actions a{
+  display:flex;align-items:center;gap:6px;
+  padding:9px 16px;border:1px solid #704919;
+  border-radius:22px;background:#1b130d;color:#f1ca72;font-size:12px;font-weight:700;
+}
+.actions a:hover{background:#251a11}
+
+/* CATEGORY NAV */
+.nav-wrap{
+  position:sticky;top:0;z-index:20;
+  background:rgba(12,9,7,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  display:flex;gap:8px;overflow-x:auto;padding:11px 14px;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  flex:0 0 auto;padding:9px 16px;border-radius:22px;
+  background:#17120f;border:1px solid #29201a;color:#d6cabd;
+  font-size:12px;font-weight:700;white-space:nowrap;
+}
+.nav a.active,.nav a:hover{background:var(--gold);border-color:var(--gold);color:#17100b}
+
+/* SEARCH */
+.tools{padding:14px 14px 0}
+.search{
+  width:100%;padding:13px 16px;border-radius:15px;
+  border:1px solid #30241b;background:#14100d;color:white;
+  font-family:inherit;font-size:13px;outline:none;
+}
+.search:focus{border-color:#8f6426}
+.search::placeholder{color:#81776c}
+
+/* MENU */
+.menu{padding:18px 14px 45px}
+.section{margin-bottom:31px;scroll-margin-top:72px}
+.section-head{display:flex;align-items:center;gap:10px;margin:0 2px 12px}
+.section-head h2{font-size:21px;margin:0;font-weight:800}
+.count{font-size:10px;color:#c8bcae;background:#241c17;border-radius:15px;padding:5px 9px}
+.section-head .line{height:1px;background:linear-gradient(90deg,transparent,#68471f);flex:1}
+
+/* ITEMS */
+.item{
+  display:flex;align-items:center;gap:12px;
+  min-height:78px;padding:9px 10px;margin-bottom:8px;
+  border:1px solid #251d18;border-radius:17px;
+  background:linear-gradient(135deg,#17120f,#110e0c);
+  transition:.18s;
+}
+.item:hover{border-color:#65451f;transform:translateY(-1px)}
+.item-img{
+  width:78px;height:62px;flex:0 0 78px;border-radius:13px;
+  object-fit:cover;background:
+    linear-gradient(135deg,#211810,#0d0a08);
+  border:1px solid #32251c;
+}
+.item-info{min-width:0;flex:1}
+.item-name{font-size:14px;font-weight:700;line-height:1.4}
+.item-price{color:var(--gold2);font-size:13px;font-weight:800;margin-top:3px}
+.item-price small{font-size:10px;color:#8f8478;margin-right:3px}
+.badge{
+  display:inline-block;margin-right:6px;padding:2px 7px;
+  border-radius:10px;background:#6b3d10;color:#ffd875;font-size:9px;
+  vertical-align:2px;
+}
+
+/* FEATURE */
+.feature{
+  position:relative;overflow:hidden;min-height:260px;
+  border-radius:20px;margin-bottom:10px;border:1px solid #4b331a;
+  background:linear-gradient(135deg,#22170e,#0d0a08);
+}
+.feature img{width:100%;height:260px;display:block;object-fit:cover;opacity:.62}
+.feature:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 65%)}
+.feature-info{position:absolute;z-index:2;right:17px;left:17px;bottom:15px;display:flex;align-items:end;justify-content:space-between;gap:10px}
+.feature-name{font-size:20px;font-weight:800}
+.feature-price{background:#17100b;border:1px solid #6d481a;border-radius:12px;padding:7px 11px;color:#ffd56d;font-weight:800;white-space:nowrap}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:28px 18px 35px;border-top:1px solid var(--line);
+  color:#8d8276;font-size:11px;
+}
+.footer strong{display:block;color:#d6c9b8;font-size:17px;margin-bottom:4px}
+.no-results{text-align:center;padding:35px;color:#8f8579;display:none}
+@media(max-width:420px){
+  .hero h1{font-size:25px}
+  .section-head h2{font-size:19px}
+  .item-img{width:70px;height:58px;flex-basis:70px}
+}
 </style>
 </head>
 <body>
-<div class="container">
-<header>
-<div class="logo">سِر</div>
-<h1>سِر Coffee & More</h1>
-<div class="subtitle">لكل حبة قهوة حكاية</div>
-<div class="location">📍 الموصل — حي المهندسين مقابل كلية الحقوق</div>
-<div class="buttons">
-<a href="tel:07838868625">☎ اتصال</a>
-<a href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic">⌖ الموقع</a>
-<a href="https://www.instagram.com/srrcoffeshop/">◎ إنستغرام</a>
-</div>
+<div class="page">
+
+<header class="hero">
+  <div class="logo">سِر</div>
+  <h1>سِر Coffee & More</h1>
+  <div class="sub">لكل حبة قهوة حكاية</div>
+  <div class="location">📍 الموصل — حي المهندسين مقابل كلية الحقوق</div>
+  <div class="actions">
+    <a href="tel:07838868625">☎ اتصال</a>
+    <a href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic" target="_blank">⌖ الموقع</a>
+    <a href="https://www.instagram.com/srrcoffeshop/" target="_blank">◎ إنستغرام</a>
+  </div>
 </header>
 
-<nav class="nav">
-<a href="#all">الكل</a><a href="#cold">باردة</a><a href="#hot">ساخنة</a><a href="#matcha">ماتشا</a><a href="#mojito">موهيتو</a><a href="#smoothie">سموذي</a><a href="#tea">آيس تي</a><a href="#frappe">فرابيه</a><a href="#milkshake">ميلك شيك</a><a href="#specialty">مختصة</a><a href="#desserts">حلويات</a>
+<nav class="nav-wrap">
+  <div class="nav">
+    <a href="#all" class="active">الكل</a>
+    <a href="#cold">مشروبات باردة</a>
+    <a href="#hot">مشروبات ساخنة</a>
+    <a href="#matcha">ماتشا</a>
+    <a href="#mojito">موهيتو</a>
+    <a href="#smoothie">سموذي</a>
+    <a href="#tea">آيس تي</a>
+    <a href="#frappe">فرابيه</a>
+    <a href="#hibiscus">كركديه</a>
+    <a href="#milkshake">ميلك شيك</a>
+    <a href="#specialty">قهوة مختصة</a>
+    <a href="#desserts">حلويات</a>
+  </div>
 </nav>
 
-<div class="search"><input id="search" placeholder="🔍 ابحث عن مشروب أو حلى..."></div>
-<div id="menu"></div>
+<div class="tools">
+  <input id="search" class="search" type="search" placeholder="ابحث عن مشروب أو حلى...">
+</div>
 
-<footer><strong>سِر</strong>لكل حبة قهوة حكاية ☕</footer>
+<main class="menu" id="all">
+
+<section class="section" id="cold">
+  <div class="section-head"><h2>مشروبات باردة (قهوة)</h2><span class="count">12 عنصر</span><span class="line"></span></div>
+  <div class="feature">
+    <img src="images/sir-cloud.jpg" alt="سر كلاوود">
+    <div class="feature-info"><div class="feature-name">سر كلاوود <span class="badge">NEW</span></div><div class="feature-price">5000 د.ع</div></div>
+  </div>
+  <div class="items">
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه سر</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/latte-sir.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">سر كلاوود <span class="badge">NEW</span></div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/sir-cloud.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">امريكانو</div><div class="item-price">3500 <small>د.ع</small></div></div><img class="item-img" src="images/americano.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">امريكانو برتقال</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/orange-americano.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه كراميل</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/caramel-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">سبانش لاتيه</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/spanish-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه فانيلا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/vanilla-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">موكا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mocha.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه بستاشيو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/pistachio-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه تيراميسو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/tiramisu-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه كوكيز</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/cookies-latte.jpg" alt=""></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه تمر</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/date-latte.jpg" alt=""></div>
+  </div>
+</section>
+
+<section class="section" id="hot">
+  <div class="section-head"><h2>مشروبات ساخنة (قهوة)</h2><span class="count">16 عنصر</span><span class="line"></span></div>
+  <div class="items">
+    <div class="item"><div class="item-info"><div class="item-name">اسبريسو</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/espresso.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">اسبريسو مكياتو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/espresso-macchiato.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">ربستريتو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/ristretto.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">كورتادو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/cortado.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">فلات وايت</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/flat-white.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">كابتشينو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/cappuccino.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه كلاسيك</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/classic-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه بندق</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/hazelnut-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">اسبانش لاتيه</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/spanish-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">موكا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mocha.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه كراميل</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/caramel-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه فانيلا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/vanilla-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">لاتيه بستاشيو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/pistachio-latte.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">هوت شوكليت</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/hot-chocolate.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">سحلب</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/sahlab.jpg"></div>
+    <div class="item"><div class="item-info"><div class="item-name">قهوة تركية</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/turkish-coffee.jpg"></div>
+  </div>
+</section>
+
+<section class="section" id="matcha"><div class="section-head"><h2>ماتشا</h2><span class="count">4 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">كلاسيك</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/matcha-classic.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">فانيلا</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/matcha-vanilla.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">فراولة</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/matcha-strawberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">ماتشا كلاوود</div><div class="item-price">6000 <small>د.ع</small></div></div><img class="item-img" src="images/matcha-cloud.jpg"></div>
+</div></section>
+
+<section class="section" id="mojito"><div class="section-head"><h2>موهيتو</h2><span class="count">10 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">موهيتو سر</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-sir.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">موهيتو كلاسيك</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-classic.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">فراوله</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-strawberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">رمان</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-pomegranate.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">باشن فروت</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-passion.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">بلو بيري</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-blueberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">كيوي</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-kiwi.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">كرز</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-cherry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">ركي</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-raki.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">اناناس</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/mojito-pineapple.jpg"></div>
+</div></section>
+
+<section class="section" id="smoothie"><div class="section-head"><h2>سموذي</h2><span class="count">6 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">فراوله</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-strawberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">مانجا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-mango.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">باشن فروت</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-passion.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">خوخ</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-peach.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">بلو بيري</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-blueberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">كيوي</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/smoothie-kiwi.jpg"></div>
+</div></section>
+
+<section class="section" id="tea"><div class="section-head"><h2>آيس تي</h2><span class="count">7 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">خوخ</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-peach.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">رمان</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-pomegranate.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">ليمون ونعناع</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-mint.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">فراوله</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-strawberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">باشن فروت</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-passion.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">بلو بيري</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-blueberry.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">تفاح أخضر</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/iced-tea-green-apple.jpg"></div>
+</div></section>
+
+<section class="section" id="frappe"><div class="section-head"><h2>فرابيه</h2><span class="count">3 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">كراميل</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/frappe-caramel.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">موكا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/frappe-mocha.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">بستاشيو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/frappe-pistachio.jpg"></div>
+</div></section>
+
+<section class="section" id="hibiscus"><div class="section-head"><h2>كركديه</h2><span class="count">2 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">كركديه</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/hibiscus.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">كركديه سر</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/hibiscus-sir.jpg"></div>
+</div></section>
+
+<section class="section" id="milkshake"><div class="section-head"><h2>ميلك شيك</h2><span class="count">5 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">اوريو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/milkshake-oreo.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">لوتس</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/milkshake-lotus.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">موكا</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/milkshake-mocha.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">بستاشيو</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/milkshake-pistachio.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">فراوله</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/milkshake-strawberry.jpg"></div>
+</div></section>
+
+<section class="section" id="specialty"><div class="section-head"><h2>قهوة مختصة</h2><span class="count">3 عناصر</span><span class="line"></span></div><div class="items">
+<div class="item"><div class="item-info"><div class="item-name">كولد برو</div><div class="item-price">—</div></div><img class="item-img" src="images/cold-brew.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">اسبريسو مختص</div><div class="item-price">—</div></div><img class="item-img" src="images/specialty-espresso.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">V60</div><div class="item-price">—</div></div><img class="item-img" src="images/v60.jpg"></div>
+</div></section>
+
+<section class="section" id="desserts"><div class="section-head"><h2>حلويات</h2><span class="count">7 عناصر</span><span class="line"></span></div>
+<div class="feature"><img src="images/croissant.jpg" alt="كرواسون"><div class="feature-info"><div class="feature-name">كرواسون</div><div class="feature-price">4000 د.ع</div></div></div>
+<div class="items">
+<div class="item"><div class="item-info"><div class="item-name">كرواسون</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/croissant.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">كوكيز</div><div class="item-price">2000 <small>د.ع</small></div></div><img class="item-img" src="images/cookies.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">سان سبيستيان</div><div class="item-price">5000 <small>د.ع</small></div></div><img class="item-img" src="images/san-sebastian.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">ميني جيز كيك</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/mini-cheesecake.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">مافن</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/muffin.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">سندويتش ستراكنوف</div><div class="item-price">4000 <small>د.ع</small></div></div><img class="item-img" src="images/strakunov-sandwich.jpg"></div>
+<div class="item"><div class="item-info"><div class="item-name">براونيز</div><div class="item-price">3000 <small>د.ع</small></div></div><img class="item-img" src="images/brownies.jpg"></div>
+</div></section>
+
+<div class="no-results" id="noResults">ما لكيت هذا الأيتم ☕</div>
+</main>
+
+<footer class="footer">
+  <strong>سِر</strong>
+  Coffee & More · لكل حبة قهوة حكاية
+</footer>
 </div>
 
 <script>
-const sections=[
-["cold","مشروبات باردة (قهوة)",[
-["لاتيه سر","5000"],["سر كلاوود","5000","NEW"],["امريكانو","3500"],["امريكانو برتقال","4000"],["لاتيه كراميل","4000"],["سبانش لاتيه","4000"],["لاتيه فانيلا","4000"],["موكا","4000"],["لاتيه بستاشيو","4000"],["لاتيه تيراميسو","4000"],["لاتيه كوكيز","4000"],["لاتيه تمر","4000"]]],
-["hot","مشروبات ساخنة (قهوة)",[
-["اسبريسو","3000"],["اسبريسو مكياتو","4000"],["ربستريتو","4000"],["كورتادو","4000"],["فلات وايت","4000"],["كابتشينو","4000"],["لاتيه كلاسيك","4000"],["لاتيه بندق","4000"],["اسبانش لاتيه","4000"],["موكا","4000"],["لاتيه كراميل","4000"],["لاتيه فانيلا","4000"],["لاتيه بستاشيو","4000"],["هوت شوكليت","4000"],["سحلب","3000"],["قهوة تركية","3000"]]],
-["matcha","ماتشا",[["كلاسيك","5000"],["فانيلا","5000"],["فراولة","5000"],["ماتشا كلاوود","6000"]]],
-["mojito","موهيتو",[["موهيتو سر","4000"],["موهيتو كلاسيك","4000"],["فراوله","4000"],["رمان","4000"],["باشن فروت","4000"],["بلو بيري","4000"],["كيوي","4000"],["كرز","4000"],["ركي","4000"],["اناناس","4000"]]],
-["smoothie","سموذي",[["فراوله","4000"],["مانجا","4000"],["باشن فروت","4000"],["خوخ","4000"],["بلو بيري","4000"],["كيوي","4000"]]],
-["tea","آيس تي",[["خوخ","4000"],["رمان","4000"],["ليمون ونعناع","4000"],["فراوله","4000"],["باشن فروت","4000"],["بلو بيري","4000"],["تفاح أخضر","4000"]]],
-["frappe","فرابيه",[["كراميل","4000"],["موكا","4000"],["بستاشيو","4000"]]],
-["hibiscus","كركديه",[["كركديه","4000"],["كركديه سر","5000"]]],
-["milkshake","ميلك شيك",[["اوريو","4000"],["لوتس","4000"],["موكا","4000"],["بستاشيو","4000"],["فراوله","4000"]]],
-["specialty","قهوة مختصة",[["كولد برو","حسب الاختيار"],["اسبريسو مختص","حسب الاختيار"],["V60","حسب الاختيار"]]],
-["desserts","حلويات",[["مافن","3000"],["سندويتش ستراكنوف","4000"],["براونيز","3000"],["كرواسون","4000"],["كوكيز","2000"],["سان سبيستيان","5000"],["ميني جيز كيك","3000"]]]
-];
-
-const menu=document.getElementById("menu");
-menu.innerHTML=sections.map(s=>`
-<section id="${s[0]}">
-<div class="title"><h2>${s[1]}</h2><span class="count">${s[2].length} عناصر</span><span class="line"></span></div>
-${s[2].map(x=>`<div class="item"><div class="item-info"><div class="name">${x[0]} ${x[2]?`<span class="badge">${x[2]}</span>`:""}</div><div class="price">${x[1]}${x[1].match(/^\\d/)?" د.ع":""}</div></div></div>`).join("")}
-</section>`).join("");
-
-document.getElementById("search").addEventListener("input",e=>{
-const q=e.target.value.trim().toLowerCase();
-document.querySelectorAll(".item").forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q)?"flex":"none");
+const search=document.getElementById('search');
+const sections=[...document.querySelectorAll('.section')];
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();
+  let found=0;
+  sections.forEach(section=>{
+    let count=0;
+    section.querySelectorAll('.item,.feature').forEach(card=>{
+      const text=card.innerText.toLowerCase();
+      const ok=!q||text.includes(q);
+      card.style.display=ok?'':'none';
+      if(ok) count++;
+    });
+    section.style.display=count?'':'none';
+    found+=count;
+  });
+  document.getElementById('noResults').style.display=found?'none':'block';
 });
 </script>
 </body>
-</html>'''
-path="/mnt/data/index.html"
-with open(path,"w",encoding="utf-8") as f:
-    f.write(html)
-print(path)
+</html>
