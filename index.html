@@ -1,525 +1,273 @@
-from pathlib import Path
+from PIL import Image
+import base64, io, os, html, json, textwrap
 
-html = r'''<!DOCTYPE html>
+# Resize and embed the user's supplied product photos so the menu works as one standalone HTML file.
+photo_files = [
+    ("/mnt/data/26C4F8EB-2886-42FC-824F-67B295AC693C.jpeg", "موهيتو رمان"),
+    ("/mnt/data/DB27890E-EEFC-4435-BC4B-335DC2B26C72.jpeg", "موهيتو فراولة"),
+    ("/mnt/data/72CDD528-B599-4360-B9C8-A01D161C6936.jpeg", "موهيتو كلاسيك"),
+    ("/mnt/data/189BE18A-3A37-4CE6-AEDF-A55C12B57115.jpeg", "موهيتو بلو بيري"),
+    ("/mnt/data/52327A10-44A7-46E7-82A8-D96743C00182.jpeg", "سموذي بلو بيري"),
+    ("/mnt/data/22DD264B-F8BE-41FE-9CE3-C0C90B8C5C48.jpeg", "سموذي جوز الهند"),
+    ("/mnt/data/45168585-D9AE-493B-858D-C40CCCCBBB75.jpeg", "سموذي فراولة"),
+    ("/mnt/data/E8FB0196-1433-43F7-9A6C-0F6B9FF64588.jpeg", "سموذي فستق"),
+    ("/mnt/data/F28F6677-B02D-4E8F-93C4-499A98FF3816.jpeg", "سموذي مانجا"),
+    ("/mnt/data/39E80D7E-691A-4DCD-AFE3-794B7993BD81.jpeg", "فرابيه لوتس"),
+    ("/mnt/data/8426FDD1-A9A0-4718-9879-13AD19962265.jpeg", "فرابيه أوريو"),
+    ("/mnt/data/7610494F-BC0F-4180-9BC0-0125CEC58499.jpeg", "ماتشا"),
+]
+
+def data_uri(path):
+    im = Image.open(path).convert("RGB")
+    im.thumbnail((650, 650), Image.Resampling.LANCZOS)
+    buf = io.BytesIO()
+    im.save(buf, format="JPEG", quality=78, optimize=True)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
+photos = [{"name": n, "src": data_uri(p)} for p, n in photo_files]
+
+def item(name, price=None, badge=None):
+    return {"name": name, "price": price, "badge": badge}
+
+sections = [
+    ("مشروبات باردة (قهوة)", [
+        item("لاتيه سر", "5,000"),
+        item("سر كلاوود", "5,000", "NEW"),
+        item("أمريكانو", "3,500"),
+        item("أمريكانو برتقال", "4,000"),
+        item("لاتيه كراميل", "4,000"),
+        item("سبانش لاتيه", "4,000"),
+        item("لاتيه فانيلا", "4,000"),
+        item("موكا", "4,000"),
+        item("لاتيه بستاشيو", "4,000"),
+        item("لاتيه تيراميسو", "4,000"),
+        item("لاتيه كوكيز", "4,000"),
+        item("لاتيه تمر", "4,000"),
+    ]),
+    ("مشروبات ساخنة (قهوة)", [
+        item("إسبريسو", "3,000"), item("إسبريسو ميكاتو", "4,000"),
+        item("ريستريتو", "4,000"), item("كورتادو", "4,000"),
+        item("فلات وايت", "4,000"), item("كابتشينو", "4,000"),
+        item("لاتيه كلاسيك", "4,000"), item("لاتيه بندق", "4,000"),
+        item("سبانش لاتيه", "4,000"), item("موكا", "4,000"),
+        item("لاتيه كراميل", "4,000"), item("لاتيه فانيلا", "4,000"),
+        item("لاتيه بستاشيو", "4,000"), item("هوت شوكليت", "4,000"),
+        item("سحلب", "3,000"), item("قهوة تركية", "3,000"),
+    ]),
+    ("ماتشا", [
+        item("كلاسيك", "5,000"), item("فانيلا", "5,000"),
+        item("فراولة", "5,000"), item("ماتشا كلاوود", "6,000"),
+    ]),
+    ("موهيتو", [
+        item("موهيتو سر", "4,000"), item("موهيتو كلاسيك", "4,000"),
+        item("فراولة", "4,000"), item("رمان", "4,000"),
+        item("باشن فروت", "4,000"), item("بلو بيري", "4,000"),
+        item("كيوي", "4,000"), item("كرد", "4,000"),
+        item("ركي", "4,000"), item("أناناس", "4,000"),
+    ]),
+    ("سموذي", [
+        item("فراولة", "4,000"), item("مانجا", "4,000"),
+        item("باشن فروت", "4,000"), item("خوخ", "4,000"),
+        item("بلو بيري", "4,000"), item("كيوي", "4,000"),
+    ]),
+    ("فرابيه", [
+        item("كراميل", "4,000"), item("موكا", "4,000"), item("بستاشيو", "4,000"),
+    ]),
+    ("آيس تي", [
+        item("خوخ", "4,000"), item("رمان", "4,000"),
+        item("ليمون ونعناع", "4,000"), item("فراولة", "4,000"),
+        item("باشن فروت", "4,000"), item("بلو بيري", "4,000"),
+        item("تفاح أخضر", "4,000"),
+    ]),
+    ("قهوة مختصة", [
+        item("كولد برو"), item("إسبريسو مختص"), item("V60"),
+    ]),
+    ("ميلك شيك", [
+        item("أوريو", "4,000"), item("لوتس", "4,000"),
+        item("موكا", "4,000"), item("بستاشيو", "4,000"), item("فراولة", "4,000"),
+    ]),
+    ("كريب", [item("كريب", "4,000"), item("كريب سر", "5,000")]),
+    ("حلويات", [
+        item("كرواسون", "4,000"), item("كوكيز", "2,000"),
+        item("سان سيباستيان", "5,000"), item("ميني تشيز كيك", "3,000"),
+        item("مافن", "3,000"), item("سندويش ستراكونوف", "4,000"),
+        item("براونيز", "3,000"),
+    ]),
+]
+
+# Map the supplied photos to relevant menu items. Items without a supplied photo remain elegant text cards.
+photo_map = {
+    "موهيتو رمان": photos[0]["src"],
+    "موهيتو فراولة": photos[1]["src"],
+    "موهيتو كلاسيك": photos[2]["src"],
+    "موهيتو بلو بيري": photos[3]["src"],
+    "سموذي بلو بيري": photos[4]["src"],
+    "سموذي جوز الهند": photos[5]["src"],
+    "سموذي فراولة": photos[6]["src"],
+    "سموذي فستق": photos[7]["src"],
+    "سموذي مانجا": photos[8]["src"],
+    "فرابيه لوتس": photos[9]["src"],
+    "فرابيه أوريو": photos[10]["src"],
+    "ماتشا": photos[11]["src"],
+}
+# Use supplied photos as featured cards at the top, while the complete price list stays below.
+featured = [
+    ("موهيتو رمان", "4,000"),
+    ("موهيتو فراولة", "4,000"),
+    ("موهيتو كلاسيك", "4,000"),
+    ("موهيتو بلو بيري", "4,000"),
+    ("سموذي بلو بيري", "4,000"),
+    ("سموذي فراولة", "4,000"),
+    ("سموذي مانجا", "4,000"),
+    ("سموذي فستق", "4,000"),
+    ("فرابيه لوتس", "4,000"),
+    ("فرابيه أوريو", "4,000"),
+    ("ماتشا", "5,000"),
+]
+
+def card_html(it):
+    badge = f'<span class="badge">{html.escape(it["badge"])}</span>' if it.get("badge") else ""
+    price = f'<span class="price">{html.escape(it["price"])} <small>د.ع</small></span>' if it.get("price") else '<span class="price muted">—</span>'
+    return f'<div class="item"><span class="item-name">{html.escape(it["name"])}</span>{badge}{price}</div>'
+
+sections_html = ""
+for title, items in sections:
+    sections_html += f'''
+    <section class="menu-section" id="{html.escape(title)}">
+      <div class="section-title"><span>{html.escape(title)}</span></div>
+      <div class="items">
+        {''.join(card_html(x) for x in items)}
+      </div>
+    </section>
+    '''
+
+featured_html = ""
+for name, price in featured:
+    src = photo_map.get(name)
+    if src:
+        featured_html += f'''
+        <article class="photo-card">
+          <img src="{src}" alt="{html.escape(name)}" loading="lazy">
+          <div class="photo-info"><strong>{html.escape(name)}</strong><span>{price} د.ع</span></div>
+        </article>
+        '''
+
+html_doc = f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#8C7364">
-<meta name="description" content="منيو سِر كوفي شوب">
-<title>سِر | Sir Coffee</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087d93">
+<meta name="description" content="منيو سِرّ Coffee & More — القهوة والمشروبات والحلويات">
+<title>سِرّ | Coffee & More — Menu</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
-
-:root{
-  --bg:#8C7364;
-  --card:#EFE7DB;
-  --card2:#F7F1E8;
-  --text:#4D3B31;
-  --muted:#7D695C;
-  --teal:#2E9EAF;
-  --teal-dark:#247F8D;
-  --line:rgba(77,59,49,.14);
-  --shadow:0 10px 30px rgba(48,34,27,.12);
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-a{text-decoration:none;color:inherit}
-button{font:inherit;border:0;cursor:pointer}
-
-.container{width:min(1120px,92%);margin:auto}
-
-header{
-  padding:28px 0 22px;
-  position:relative;
-  overflow:hidden;
-}
-header:before{
-  content:"";
-  position:absolute;
-  width:360px;height:360px;
-  border:1px solid rgba(239,231,219,.18);
-  border-radius:50%;
-  top:-230px;left:-100px;
-}
-.top-actions{
-  display:flex;gap:10px;justify-content:flex-start;
-  margin-bottom:12px;
-}
-.action{
-  background:var(--card);
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:16px;
-  padding:10px 16px;
-  font-weight:700;
-  transition:.2s;
-}
-.action:hover{transform:translateY(-2px)}
-.brand{text-align:center;padding:4px 0 20px}
-.logo{
-  width:92px;height:92px;margin:auto;
-  border-radius:27px;
-  background:var(--card);
-  display:flex;align-items:center;justify-content:center;
-  border:2px solid rgba(46,158,175,.35);
-  box-shadow:var(--shadow);
-  font-size:48px;font-weight:800;color:var(--teal);
-}
-.brand h1{
-  color:var(--teal);
-  font-size:42px;
-  line-height:1.1;
-  margin-top:13px;
-  font-weight:800;
-}
-.brand .en{
-  color:var(--card);
-  letter-spacing:5px;
-  font-size:12px;
-  margin-top:2px;
-}
-.brand p{
-  color:var(--card);
-  opacity:.95;
-  margin-top:8px;
-  font-size:16px;
-}
-
-.search{
-  background:var(--card);
-  border-radius:22px;
-  padding:5px;
-  display:flex;
-  align-items:center;
-  margin:8px auto 18px;
-  max-width:900px;
-  box-shadow:var(--shadow);
-}
-.search input{
-  width:100%;border:0;outline:0;background:transparent;
-  padding:15px 18px;color:var(--text);font-size:16px;
-  font-family:inherit;
-}
-.search button{
-  width:52px;height:52px;border-radius:17px;
-  background:var(--teal);color:white;font-size:22px;
-}
-
-.categories{
-  display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;
-  scrollbar-width:none;
-}
-.categories::-webkit-scrollbar{display:none}
-.cat{
-  white-space:nowrap;
-  background:var(--card);
-  color:var(--text);
-  padding:11px 20px;
-  border-radius:18px;
-  font-weight:700;
-  border:1px solid transparent;
-}
-.cat.active,.cat:hover{
-  background:var(--teal);color:white;
-  border-color:rgba(255,255,255,.35);
-}
-
-.hero{
-  margin:10px 0 28px;
-  background:var(--card);
-  border-radius:30px;
-  min-height:300px;
-  padding:35px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  align-items:center;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-}
-.hero-copy h2{font-size:42px;line-height:1.2}
-.hero-copy p{margin:12px 0;color:var(--muted);font-size:17px}
-.price{
-  color:var(--teal-dark);
-  font-size:25px;
-  font-weight:800;
-  margin:12px 0;
-}
-.hero-btn{
-  display:inline-block;background:var(--teal);color:white;
-  padding:12px 23px;border-radius:16px;font-weight:800;
-}
-.hero-art{
-  min-height:230px;border-radius:24px;
-  background:
-    radial-gradient(circle at 50% 40%, rgba(239,231,219,.9), transparent 42%),
-    linear-gradient(135deg,#d8c7b5,#a9917e);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
-}
-.hero-cup{
-  width:150px;height:190px;
-  background:linear-gradient(#f8f4ed 0 60%,#eadfd1 60%);
-  border-radius:20px 20px 34px 34px;
-  border:4px solid rgba(255,255,255,.65);
-  box-shadow:0 25px 35px rgba(50,35,25,.22);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--teal);font-size:45px;font-weight:800;
-  transform:rotate(-3deg);
-}
-.hero-cup:before{
-  content:"";position:absolute;top:-14px;left:4px;right:4px;height:25px;
-  background:#8f5d38;border-radius:50%;
-  box-shadow:inset 0 4px 8px rgba(255,255,255,.25);
-}
-
-.section{margin:28px 0 34px}
-.section-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;
-}
-.section-head h2{font-size:24px;color:var(--card)}
-.section-head span{
-  background:rgba(239,231,219,.2);
-  color:var(--card);
-  padding:4px 11px;border-radius:20px;font-size:12px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-.card{
-  background:var(--card);
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  border:1px solid rgba(255,255,255,.25);
-  transition:.2s;
-}
-.card:hover{transform:translateY(-4px)}
-.photo{
-  height:170px;
-  display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(circle at 50% 35%,rgba(255,255,255,.8),transparent 38%),
-    linear-gradient(135deg,#e9ddd0,#c7b09c);
-  position:relative;
-  overflow:hidden;
-}
-.photo img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.placeholder{
-  width:90px;height:120px;border-radius:14px 14px 24px 24px;
-  background:linear-gradient(#faf8f2 0 65%,#e5d9ca 65%);
-  border:3px solid rgba(255,255,255,.8);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--teal);font-size:25px;font-weight:800;
-  box-shadow:0 14px 25px rgba(60,40,30,.18);
-}
-.info{padding:13px 14px 15px}
-.name{font-size:17px;font-weight:800}
-.item-price{color:var(--teal-dark);font-weight:800;margin-top:3px}
-.new{
-  position:absolute;top:9px;right:9px;
-  background:var(--teal);color:white;
-  border-radius:20px;padding:4px 9px;font-size:11px;font-weight:800;
-}
-
-.list-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
-}
-.list-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:14px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-  box-shadow:var(--shadow);
-}
-.list-card .name{font-size:16px}
-.list-card .item-price{font-size:15px}
-
-footer{
-  margin-top:45px;
-  background:var(--card);
-  border-radius:30px 30px 0 0;
-  overflow:hidden;
-}
-.footer-info{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:0;
-}
-.footer-box{
-  padding:22px 16px;
-  border-left:1px solid var(--line);
-}
-.footer-box:last-child{border-left:0}
-.footer-title{color:var(--teal-dark);font-weight:800;margin-bottom:5px}
-.footer-text{font-size:14px;line-height:1.7}
-.copy{
-  background:var(--teal);
-  color:white;text-align:center;padding:10px;
-  font-size:13px;
-}
-
-.no-results{
-  display:none;
-  text-align:center;color:var(--card);
-  padding:30px;
-}
-
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:700px){
-  .container{width:94%}
-  .top-actions{justify-content:center}
-  .action{padding:9px 12px;font-size:13px}
-  .brand h1{font-size:36px}
-  .hero{grid-template-columns:1fr;min-height:auto;padding:24px}
-  .hero-copy{text-align:center}
-  .hero-copy h2{font-size:34px}
-  .hero-art{min-height:210px}
-  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .photo{height:145px}
-  .list-grid{grid-template-columns:1fr}
-  .footer-info{grid-template-columns:repeat(2,1fr)}
-  .footer-box{border-bottom:1px solid var(--line)}
-}
-@media(max-width:430px){
-  .action{font-size:12px;padding:8px 10px}
-  .brand h1{font-size:32px}
-  .brand p{font-size:14px}
-  .grid{grid-template-columns:1fr 1fr}
-  .photo{height:135px}
-  .name{font-size:15px}
-  .item-price{font-size:14px}
-  .footer-info{grid-template-columns:1fr}
-  .footer-box{border-left:0}
-}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+:root {{
+  --teal:#087d93; --teal2:#0b9ab2; --cream:#fffaf3; --paper:#fffdf9;
+  --ink:#17323a; --muted:#6f7f82; --line:#e8d7c3; --gold:#b9996a;
+}}
+*{{box-sizing:border-box}}
+html{{scroll-behavior:smooth}}
+body{{margin:0;background:linear-gradient(180deg,#eaf8fa 0,#fffaf3 35%,#fff 100%);color:var(--ink);font-family:Cairo,system-ui,sans-serif}}
+a{{color:inherit;text-decoration:none}}
+.container{{width:min(1120px,92%);margin:auto}}
+.hero{{padding:42px 0 24px;text-align:center;position:relative;overflow:hidden}}
+.hero:before{{content:"";position:absolute;inset:-80px 0 auto;height:240px;background:radial-gradient(circle at 50% 20%,rgba(8,125,147,.20),transparent 65%);pointer-events:none}}
+.logo{{position:relative;display:inline-flex;align-items:center;justify-content:center;width:100px;height:100px;border:2px solid var(--teal);border-radius:50%;color:var(--teal);font-size:55px;font-weight:800;line-height:1;background:#fffdf9;box-shadow:0 12px 35px rgba(8,125,147,.14)}}
+.brand{{margin:15px 0 0;font-family:"Playfair Display",serif;letter-spacing:6px;color:var(--teal);font-size:22px}}
+.tag{{margin:5px 0 18px;color:var(--muted);font-size:13px;letter-spacing:1px}}
+.actions{{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}}
+.btn{{border:1px solid rgba(8,125,147,.2);background:white;color:var(--teal);padding:10px 17px;border-radius:999px;font-weight:700;box-shadow:0 6px 18px rgba(20,70,80,.08)}}
+.btn.primary{{background:var(--teal);color:#fff}}
+.nav{{position:sticky;top:0;z-index:20;background:rgba(255,253,249,.92);backdrop-filter:blur(12px);border-top:1px solid #eee;border-bottom:1px solid #eadfd3}}
+.nav-inner{{display:flex;gap:8px;overflow:auto;padding:10px 0;scrollbar-width:none}}
+.nav-inner::-webkit-scrollbar{{display:none}}
+.nav a{{white-space:nowrap;padding:8px 13px;border-radius:999px;background:#f1f8f9;color:var(--teal);font-size:13px;font-weight:700}}
+h2{{font-size:25px;margin:34px 0 15px}}
+.featured{{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}}
+.photo-card{{background:#fff;border:1px solid #eee4d8;border-radius:20px;overflow:hidden;box-shadow:0 8px 25px rgba(40,70,70,.08)}}
+.photo-card img{{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}}
+.photo-info{{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;gap:8px;font-size:13px}}
+.photo-info span{{color:var(--teal);font-weight:800;white-space:nowrap}}
+.menu-grid{{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start}}
+.menu-section{{background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:22px;padding:15px 16px;box-shadow:0 7px 25px rgba(70,60,40,.05)}}
+.section-title{{display:flex;align-items:center;justify-content:center;margin:-2px auto 12px;position:relative}}
+.section-title span{{background:var(--teal);color:#fff;border-radius:999px;padding:8px 18px;font-weight:800;font-size:15px;box-shadow:0 7px 15px rgba(8,125,147,.18)}}
+.items{{display:flex;flex-direction:column}}
+.item{{display:grid;grid-template-columns:1fr auto auto;gap:9px;align-items:center;min-height:43px;border-bottom:1px dashed #e7ddd2}}
+.item:last-child{{border-bottom:0}}
+.item-name{{font-weight:600}}
+.price{{color:var(--teal);font-weight:800;white-space:nowrap}}
+.price small{{font-size:9px;color:var(--muted);font-weight:600}}
+.price.muted{{color:#9da7a8}}
+.badge{{font-size:9px;background:#e5a85d;color:#fff;padding:2px 7px;border-radius:999px;font-weight:800}}
+.note{{margin:22px 0 35px;background:#f5fbfb;border:1px solid #d9eef1;border-radius:18px;padding:13px 15px;color:#557075;font-size:12px;text-align:center}}
+footer{{margin-top:40px;padding:32px 0 45px;background:#073e49;color:#fff;text-align:center}}
+footer .brand2{{font-size:28px;font-weight:800;color:#d9fbff}}
+footer p{{margin:6px 0;color:#b9d6da;font-size:13px}}
+.footer-actions{{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:15px}}
+.footer-actions .btn{{background:transparent;border-color:#5b9ca7;color:#fff}}
+@media(max-width:850px){{.featured{{grid-template-columns:repeat(2,1fr)}}.menu-grid{{grid-template-columns:1fr}}}}
+@media(max-width:480px){{.hero{{padding-top:30px}}.logo{{width:84px;height:84px;font-size:47px}}.featured{{gap:10px}}.photo-info{{font-size:12px}}.menu-section{{padding:13px}}.item{{min-height:40px;font-size:13px}}}}
 </style>
 </head>
-
 <body>
-
-<header>
-<div class="container">
-
-  <div class="top-actions">
-    <a class="action" href="https://www.instagram.com/srrcoffeshop/" target="_blank">Instagram</a>
-    <a class="action" href="tel:07838868625">اتصل بنا</a>
-    <a class="action" href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic" target="_blank">الموقع</a>
+<header class="hero">
+  <div class="container">
+    <div class="logo">سِرّ</div>
+    <div class="brand">COFFEE & MORE</div>
+    <div class="tag">سرّ كل رشفة حكاية</div>
+    <div class="actions">
+      <a class="btn primary" href="https://www.instagram.com/srrcoffeshop/" target="_blank">Instagram</a>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=سِرّ+Coffee+%26+More+Mosul+Iraq" target="_blank">📍 موقع المحل</a>
+    </div>
   </div>
-
-  <div class="brand">
-    <div class="logo">سِر</div>
-    <h1>سِر</h1>
-    <div class="en">COFFEE SHOP</div>
-    <p>لكل حبة قهوة حكاية</p>
-  </div>
-
-  <div class="search">
-    <input id="searchInput" type="search" placeholder="ابحث عن مشروب أو حلى..." oninput="searchItems()">
-    <button aria-label="بحث">⌕</button>
-  </div>
-
-  <div class="categories" id="categories">
-    <button class="cat active" onclick="filterCategory('all',this)">الكل</button>
-    <button class="cat" onclick="filterCategory('cold',this)">مشروبات باردة</button>
-    <button class="cat" onclick="filterCategory('hot',this)">مشروبات ساخنة</button>
-    <button class="cat" onclick="filterCategory('matcha',this)">ماتشا</button>
-    <button class="cat" onclick="filterCategory('mojito',this)">موهيتو</button>
-    <button class="cat" onclick="filterCategory('smoothie',this)">سموذي</button>
-    <button class="cat" onclick="filterCategory('iceTea',this)">آيس تي</button>
-    <button class="cat" onclick="filterCategory('frappe',this)">فرابيه</button>
-    <button class="cat" onclick="filterCategory('hibiscus',this)">كركديه</button>
-    <button class="cat" onclick="filterCategory('milkshake',this)">ميلك شيك</button>
-    <button class="cat" onclick="filterCategory('specialty',this)">قهوة مختصة</button>
-    <button class="cat" onclick="filterCategory('desserts',this)">حلويات</button>
-  </div>
-</div>
 </header>
 
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#مشروبات باردة (قهوة)">بارد</a>
+    <a href="#مشروبات ساخنة (قهوة)">ساخن</a>
+    <a href="#ماتشا">ماتشا</a>
+    <a href="#موهيتو">موهيتو</a>
+    <a href="#سموذي">سموذي</a>
+    <a href="#فرابيه">فرابيه</a>
+    <a href="#آيس تي">آيس تي</a>
+    <a href="#قهوة مختصة">مختصة</a>
+    <a href="#ميلك شيك">ميلك شيك</a>
+    <a href="#حلويات">حلويات</a>
+  </div>
+</nav>
+
 <main class="container">
+  <h2>مختارات سِرّ</h2>
+  <div class="featured">{featured_html}</div>
 
-<section class="hero">
-  <div class="hero-copy">
-    <h2>لاتيه سِر</h2>
-    <p>مشروبنا المميز بطابع فريد، بطعم متوازن وقوام كريمي ناعم.</p>
-    <div class="price">5,000 د.ع</div>
-    <a class="hero-btn" href="tel:07838868625">اتصل للطلب</a>
+  <div class="note">الأسعار بالدينار العراقي • بعض مشروبات القهوة المختصة تُحضّر حسب الاختيار</div>
+
+  <div class="menu-grid">
+    {sections_html}
   </div>
-  <div class="hero-art">
-    <div class="hero-cup">سِر</div>
-  </div>
-</section>
-
-<div id="menu"></div>
-<div class="no-results" id="noResults">ما لكينا أيتم بهذا الاسم.</div>
-
 </main>
 
-<footer class="container">
-  <div class="footer-info">
-    <div class="footer-box">
-      <div class="footer-title">📍 الموقع</div>
-      <div class="footer-text">حي المهندسين مقابل كلية الحقوق<br>الموصل</div>
-    </div>
-    <div class="footer-box">
-      <div class="footer-title">☎ اتصل بنا</div>
-      <div class="footer-text"><a href="tel:07838868625">07838868625</a></div>
-    </div>
-    <div class="footer-box">
-      <div class="footer-title">🕐 أوقات العمل</div>
-      <div class="footer-text">السبت – الخميس<br>8 صباحاً – 2 فجراً<br>الجمعة: 4 عصراً – 2 فجراً</div>
-    </div>
-    <div class="footer-box">
-      <div class="footer-title">🚗 الموقع والطلب</div>
-      <div class="footer-text"><a href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic" target="_blank">فتح الموقع على الخريطة</a><br>متوفر للطلب والزيارة</div>
+<footer>
+  <div class="container">
+    <div class="brand2">سِرّ</div>
+    <p>COFFEE & MORE</p>
+    <p>حي المهندسين — مقابل كلية الحقوق — الموصل</p>
+    <div class="footer-actions">
+      <a class="btn" href="https://www.instagram.com/srrcoffeshop/" target="_blank">تابعنا على Instagram</a>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=سِرّ+Coffee+%26+More+Mosul+Iraq" target="_blank">افتح الموقع 📍</a>
     </div>
   </div>
-  <div class="copy">جميع الحقوق محفوظة © 2026 سِر كوفي شوب</div>
 </footer>
-
-<script>
-const sections = [
-  {
-    id:'cold', title:'مشروبات باردة (قهوة)', emoji:'🧊',
-    items:[
-      ['لاتيه سِر','5000'],['سر كلاوود','5000','NEW'],['امريكانو','3500'],
-      ['امريكانو برتقال','4000'],['لاتيه كراميل','4000'],['سبانش لاتيه','4000'],
-      ['لاتيه فانيلا','4000'],['موكا','4000'],['لاتيه بستاشيو','4000'],
-      ['لاتيه تيراميسو','4000'],['لاتيه كوكيز','4000'],['لاتيه تمر','4000']
-    ]
-  },
-  {
-    id:'hot', title:'مشروبات ساخنة (قهوة)', emoji:'☕',
-    items:[
-      ['اسبريسو','3000'],['اسبريسو مكياتو','4000'],['ربستريتو','4000'],
-      ['كورتادو','4000'],['فلات وايت','4000'],['كابتشينو','4000'],
-      ['لاتيه كلاسيك','4000'],['لاتيه بندق','4000'],['اسبانش لاتيه','4000'],
-      ['موكا','4000'],['لاتيه كراميل','4000'],['لاتيه فانيلا','4000'],
-      ['لاتيه بستاشيو','4000'],['هوت شوكليت','4000'],['سحلب','3000'],['قهوة تركية','3000']
-    ]
-  },
-  {
-    id:'matcha', title:'ماتشا', emoji:'🍵',
-    items:[['كلاسيك','5000'],['فانيلا','5000'],['فراولة','5000'],['ماتشا كلاوود','6000']]
-  },
-  {
-    id:'mojito', title:'موهيتو', emoji:'🍹',
-    items:[['موهيتو سِر','4000'],['موهيتو كلاسيك','4000'],['فراولة','4000'],['رمان','4000'],['باشن فروت','4000'],['بلو بيري','4000'],['كيوي','4000'],['كرز','4000'],['ركي','4000'],['اناناس','4000']]
-  },
-  {
-    id:'smoothie', title:'سموذي', emoji:'🥤',
-    items:[['فراولة','4000'],['مانجا','4000'],['باشن فروت','4000'],['خوخ','4000'],['بلو بيري','4000'],['كيوي','4000']]
-  },
-  {
-    id:'iceTea', title:'آيس تي', emoji:'🧊',
-    items:[['خوخ','4000'],['رمان','4000'],['ليمون ونعناع','4000'],['فراولة','4000'],['باشن فروت','4000'],['بلو بيري','4000'],['تفاح أخضر','4000']]
-  },
-  {
-    id:'frappe', title:'فرابيه', emoji:'🥤',
-    items:[['كراميل','4000'],['موكا','4000'],['بستاشيو','4000']]
-  },
-  {
-    id:'hibiscus', title:'كركديه', emoji:'🌺',
-    items:[['كركديه','4000'],['كركديه سِر','5000']]
-  },
-  {
-    id:'milkshake', title:'ميلك شيك', emoji:'🥛',
-    items:[['اوريو','4000'],['لوتس','4000'],['موكا','4000'],['بستاشيو','4000'],['فراولة','4000']]
-  },
-  {
-    id:'specialty', title:'قهوة مختصة', emoji:'☕',
-    items:[['كولد برو',''],['اسبريسو مختص',''],['V60','']]
-  },
-  {
-    id:'desserts', title:'حلويات', emoji:'🍰',
-    items:[['مافن','3000'],['سندويتش ستراكنوف','4000'],['براونيز','3000'],['كرواسون','4000'],['كوكيز','2000'],['سان سبيستيان','5000'],['ميني جيز كيك','3000']]
-  }
-];
-
-let activeCategory='all';
-
-function esc(str){
-  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-}
-
-function cardHTML(item){
-  const [name,price,badge] = item;
-  return `
-    <article class="card menu-item" data-name="${esc(name)}">
-      <div class="photo">
-        ${badge ? `<div class="new">${esc(badge)}</div>` : ''}
-        <div class="placeholder">سِر</div>
-      </div>
-      <div class="info">
-        <div class="name">${esc(name)}</div>
-        <div class="item-price">${price ? esc(Number(price).toLocaleString('en-US'))+' د.ع' : 'حسب الاختيار'}</div>
-      </div>
-    </article>`;
-}
-
-function render(){
-  const menu=document.getElementById('menu');
-  menu.innerHTML=sections.map(sec => {
-    if(activeCategory!=='all' && activeCategory!==sec.id) return '';
-    return `
-      <section class="section" data-section="${sec.id}">
-        <div class="section-head">
-          <h2>${sec.emoji} ${sec.title}</h2>
-          <span>${sec.items.length} عناصر</span>
-        </div>
-        <div class="grid">${sec.items.map(cardHTML).join('')}</div>
-      </section>`;
-  }).join('');
-  searchItems();
-}
-
-function filterCategory(id,btn){
-  activeCategory=id;
-  document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('searchInput').value='';
-  render();
-  window.scrollTo({top:document.getElementById('menu').offsetTop-20,behavior:'smooth'});
-}
-
-function searchItems(){
-  const q=document.getElementById('searchInput').value.trim().toLowerCase();
-  let visible=0;
-  document.querySelectorAll('.menu-item').forEach(card=>{
-    const match=card.dataset.name.toLowerCase().includes(q);
-    card.style.display=match?'block':'none';
-    if(match) visible++;
-  });
-  document.querySelectorAll('.section').forEach(section=>{
-    const any=[...section.querySelectorAll('.menu-item')].some(x=>x.style.display!=='none');
-    section.style.display=any?'block':'none';
-  });
-  document.getElementById('noResults').style.display=visible?'none':'block';
-}
-
-render();
-</script>
-
 </body>
 </html>
-'''
+"""
 
-path = Path("/mnt/data/index.html")
-path.write_text(html, encoding="utf-8")
-print(f"تم إنشاء الملف: {path}")
+out = "/mnt/data/sirr_coffee_menu.html"
+with open(out, "w", encoding="utf-8") as f:
+    f.write(html_doc)
+
+print(f"تم إنشاء المنيو الإلكتروني: {out}")
+print(f"حجم الملف: {os.path.getsize(out)/1024/1024:.1f} MB")
