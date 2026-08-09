@@ -1,12 +1,525 @@
 from pathlib import Path
 
+html = r'''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#8C7364">
+<meta name="description" content="منيو سِر كوفي شوب">
+<title>سِر | Sir Coffee</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#8C7364;
+  --card:#EFE7DB;
+  --card2:#F7F1E8;
+  --text:#4D3B31;
+  --muted:#7D695C;
+  --teal:#2E9EAF;
+  --teal-dark:#247F8D;
+  --line:rgba(77,59,49,.14);
+  --shadow:0 10px 30px rgba(48,34,27,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:0;cursor:pointer}
+
+.container{width:min(1120px,92%);margin:auto}
+
+header{
+  padding:28px 0 22px;
+  position:relative;
+  overflow:hidden;
+}
+header:before{
+  content:"";
+  position:absolute;
+  width:360px;height:360px;
+  border:1px solid rgba(239,231,219,.18);
+  border-radius:50%;
+  top:-230px;left:-100px;
+}
+.top-actions{
+  display:flex;gap:10px;justify-content:flex-start;
+  margin-bottom:12px;
+}
+.action{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:16px;
+  padding:10px 16px;
+  font-weight:700;
+  transition:.2s;
+}
+.action:hover{transform:translateY(-2px)}
+.brand{text-align:center;padding:4px 0 20px}
+.logo{
+  width:92px;height:92px;margin:auto;
+  border-radius:27px;
+  background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid rgba(46,158,175,.35);
+  box-shadow:var(--shadow);
+  font-size:48px;font-weight:800;color:var(--teal);
+}
+.brand h1{
+  color:var(--teal);
+  font-size:42px;
+  line-height:1.1;
+  margin-top:13px;
+  font-weight:800;
+}
+.brand .en{
+  color:var(--card);
+  letter-spacing:5px;
+  font-size:12px;
+  margin-top:2px;
+}
+.brand p{
+  color:var(--card);
+  opacity:.95;
+  margin-top:8px;
+  font-size:16px;
+}
+
+.search{
+  background:var(--card);
+  border-radius:22px;
+  padding:5px;
+  display:flex;
+  align-items:center;
+  margin:8px auto 18px;
+  max-width:900px;
+  box-shadow:var(--shadow);
+}
+.search input{
+  width:100%;border:0;outline:0;background:transparent;
+  padding:15px 18px;color:var(--text);font-size:16px;
+  font-family:inherit;
+}
+.search button{
+  width:52px;height:52px;border-radius:17px;
+  background:var(--teal);color:white;font-size:22px;
+}
+
+.categories{
+  display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;
+  scrollbar-width:none;
+}
+.categories::-webkit-scrollbar{display:none}
+.cat{
+  white-space:nowrap;
+  background:var(--card);
+  color:var(--text);
+  padding:11px 20px;
+  border-radius:18px;
+  font-weight:700;
+  border:1px solid transparent;
+}
+.cat.active,.cat:hover{
+  background:var(--teal);color:white;
+  border-color:rgba(255,255,255,.35);
+}
+
+.hero{
+  margin:10px 0 28px;
+  background:var(--card);
+  border-radius:30px;
+  min-height:300px;
+  padding:35px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  align-items:center;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.hero-copy h2{font-size:42px;line-height:1.2}
+.hero-copy p{margin:12px 0;color:var(--muted);font-size:17px}
+.price{
+  color:var(--teal-dark);
+  font-size:25px;
+  font-weight:800;
+  margin:12px 0;
+}
+.hero-btn{
+  display:inline-block;background:var(--teal);color:white;
+  padding:12px 23px;border-radius:16px;font-weight:800;
+}
+.hero-art{
+  min-height:230px;border-radius:24px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(239,231,219,.9), transparent 42%),
+    linear-gradient(135deg,#d8c7b5,#a9917e);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.hero-cup{
+  width:150px;height:190px;
+  background:linear-gradient(#f8f4ed 0 60%,#eadfd1 60%);
+  border-radius:20px 20px 34px 34px;
+  border:4px solid rgba(255,255,255,.65);
+  box-shadow:0 25px 35px rgba(50,35,25,.22);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--teal);font-size:45px;font-weight:800;
+  transform:rotate(-3deg);
+}
+.hero-cup:before{
+  content:"";position:absolute;top:-14px;left:4px;right:4px;height:25px;
+  background:#8f5d38;border-radius:50%;
+  box-shadow:inset 0 4px 8px rgba(255,255,255,.25);
+}
+
+.section{margin:28px 0 34px}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.section-head h2{font-size:24px;color:var(--card)}
+.section-head span{
+  background:rgba(239,231,219,.2);
+  color:var(--card);
+  padding:4px 11px;border-radius:20px;font-size:12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.card{
+  background:var(--card);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.25);
+  transition:.2s;
+}
+.card:hover{transform:translateY(-4px)}
+.photo{
+  height:170px;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,255,255,.8),transparent 38%),
+    linear-gradient(135deg,#e9ddd0,#c7b09c);
+  position:relative;
+  overflow:hidden;
+}
+.photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.placeholder{
+  width:90px;height:120px;border-radius:14px 14px 24px 24px;
+  background:linear-gradient(#faf8f2 0 65%,#e5d9ca 65%);
+  border:3px solid rgba(255,255,255,.8);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--teal);font-size:25px;font-weight:800;
+  box-shadow:0 14px 25px rgba(60,40,30,.18);
+}
+.info{padding:13px 14px 15px}
+.name{font-size:17px;font-weight:800}
+.item-price{color:var(--teal-dark);font-weight:800;margin-top:3px}
+.new{
+  position:absolute;top:9px;right:9px;
+  background:var(--teal);color:white;
+  border-radius:20px;padding:4px 9px;font-size:11px;font-weight:800;
+}
+
+.list-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+}
+.list-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow);
+}
+.list-card .name{font-size:16px}
+.list-card .item-price{font-size:15px}
+
+footer{
+  margin-top:45px;
+  background:var(--card);
+  border-radius:30px 30px 0 0;
+  overflow:hidden;
+}
+.footer-info{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.footer-box{
+  padding:22px 16px;
+  border-left:1px solid var(--line);
+}
+.footer-box:last-child{border-left:0}
+.footer-title{color:var(--teal-dark);font-weight:800;margin-bottom:5px}
+.footer-text{font-size:14px;line-height:1.7}
+.copy{
+  background:var(--teal);
+  color:white;text-align:center;padding:10px;
+  font-size:13px;
+}
+
+.no-results{
+  display:none;
+  text-align:center;color:var(--card);
+  padding:30px;
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+  .container{width:94%}
+  .top-actions{justify-content:center}
+  .action{padding:9px 12px;font-size:13px}
+  .brand h1{font-size:36px}
+  .hero{grid-template-columns:1fr;min-height:auto;padding:24px}
+  .hero-copy{text-align:center}
+  .hero-copy h2{font-size:34px}
+  .hero-art{min-height:210px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .photo{height:145px}
+  .list-grid{grid-template-columns:1fr}
+  .footer-info{grid-template-columns:repeat(2,1fr)}
+  .footer-box{border-bottom:1px solid var(--line)}
+}
+@media(max-width:430px){
+  .action{font-size:12px;padding:8px 10px}
+  .brand h1{font-size:32px}
+  .brand p{font-size:14px}
+  .grid{grid-template-columns:1fr 1fr}
+  .photo{height:135px}
+  .name{font-size:15px}
+  .item-price{font-size:14px}
+  .footer-info{grid-template-columns:1fr}
+  .footer-box{border-left:0}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+
+  <div class="top-actions">
+    <a class="action" href="https://www.instagram.com/srrcoffeshop/" target="_blank">Instagram</a>
+    <a class="action" href="tel:07838868625">اتصل بنا</a>
+    <a class="action" href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic" target="_blank">الموقع</a>
+  </div>
+
+  <div class="brand">
+    <div class="logo">سِر</div>
+    <h1>سِر</h1>
+    <div class="en">COFFEE SHOP</div>
+    <p>لكل حبة قهوة حكاية</p>
+  </div>
+
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="ابحث عن مشروب أو حلى..." oninput="searchItems()">
+    <button aria-label="بحث">⌕</button>
+  </div>
+
+  <div class="categories" id="categories">
+    <button class="cat active" onclick="filterCategory('all',this)">الكل</button>
+    <button class="cat" onclick="filterCategory('cold',this)">مشروبات باردة</button>
+    <button class="cat" onclick="filterCategory('hot',this)">مشروبات ساخنة</button>
+    <button class="cat" onclick="filterCategory('matcha',this)">ماتشا</button>
+    <button class="cat" onclick="filterCategory('mojito',this)">موهيتو</button>
+    <button class="cat" onclick="filterCategory('smoothie',this)">سموذي</button>
+    <button class="cat" onclick="filterCategory('iceTea',this)">آيس تي</button>
+    <button class="cat" onclick="filterCategory('frappe',this)">فرابيه</button>
+    <button class="cat" onclick="filterCategory('hibiscus',this)">كركديه</button>
+    <button class="cat" onclick="filterCategory('milkshake',this)">ميلك شيك</button>
+    <button class="cat" onclick="filterCategory('specialty',this)">قهوة مختصة</button>
+    <button class="cat" onclick="filterCategory('desserts',this)">حلويات</button>
+  </div>
+</div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <div class="hero-copy">
+    <h2>لاتيه سِر</h2>
+    <p>مشروبنا المميز بطابع فريد، بطعم متوازن وقوام كريمي ناعم.</p>
+    <div class="price">5,000 د.ع</div>
+    <a class="hero-btn" href="tel:07838868625">اتصل للطلب</a>
+  </div>
+  <div class="hero-art">
+    <div class="hero-cup">سِر</div>
+  </div>
+</section>
+
+<div id="menu"></div>
+<div class="no-results" id="noResults">ما لكينا أيتم بهذا الاسم.</div>
+
+</main>
+
+<footer class="container">
+  <div class="footer-info">
+    <div class="footer-box">
+      <div class="footer-title">📍 الموقع</div>
+      <div class="footer-text">حي المهندسين مقابل كلية الحقوق<br>الموصل</div>
+    </div>
+    <div class="footer-box">
+      <div class="footer-title">☎ اتصل بنا</div>
+      <div class="footer-text"><a href="tel:07838868625">07838868625</a></div>
+    </div>
+    <div class="footer-box">
+      <div class="footer-title">🕐 أوقات العمل</div>
+      <div class="footer-text">السبت – الخميس<br>8 صباحاً – 2 فجراً<br>الجمعة: 4 عصراً – 2 فجراً</div>
+    </div>
+    <div class="footer-box">
+      <div class="footer-title">🚗 الموقع والطلب</div>
+      <div class="footer-text"><a href="https://maps.app.goo.gl/v1R84rwAJcUyAv3B6?g_st=ic" target="_blank">فتح الموقع على الخريطة</a><br>متوفر للطلب والزيارة</div>
+    </div>
+  </div>
+  <div class="copy">جميع الحقوق محفوظة © 2026 سِر كوفي شوب</div>
+</footer>
+
+<script>
+const sections = [
+  {
+    id:'cold', title:'مشروبات باردة (قهوة)', emoji:'🧊',
+    items:[
+      ['لاتيه سِر','5000'],['سر كلاوود','5000','NEW'],['امريكانو','3500'],
+      ['امريكانو برتقال','4000'],['لاتيه كراميل','4000'],['سبانش لاتيه','4000'],
+      ['لاتيه فانيلا','4000'],['موكا','4000'],['لاتيه بستاشيو','4000'],
+      ['لاتيه تيراميسو','4000'],['لاتيه كوكيز','4000'],['لاتيه تمر','4000']
+    ]
+  },
+  {
+    id:'hot', title:'مشروبات ساخنة (قهوة)', emoji:'☕',
+    items:[
+      ['اسبريسو','3000'],['اسبريسو مكياتو','4000'],['ربستريتو','4000'],
+      ['كورتادو','4000'],['فلات وايت','4000'],['كابتشينو','4000'],
+      ['لاتيه كلاسيك','4000'],['لاتيه بندق','4000'],['اسبانش لاتيه','4000'],
+      ['موكا','4000'],['لاتيه كراميل','4000'],['لاتيه فانيلا','4000'],
+      ['لاتيه بستاشيو','4000'],['هوت شوكليت','4000'],['سحلب','3000'],['قهوة تركية','3000']
+    ]
+  },
+  {
+    id:'matcha', title:'ماتشا', emoji:'🍵',
+    items:[['كلاسيك','5000'],['فانيلا','5000'],['فراولة','5000'],['ماتشا كلاوود','6000']]
+  },
+  {
+    id:'mojito', title:'موهيتو', emoji:'🍹',
+    items:[['موهيتو سِر','4000'],['موهيتو كلاسيك','4000'],['فراولة','4000'],['رمان','4000'],['باشن فروت','4000'],['بلو بيري','4000'],['كيوي','4000'],['كرز','4000'],['ركي','4000'],['اناناس','4000']]
+  },
+  {
+    id:'smoothie', title:'سموذي', emoji:'🥤',
+    items:[['فراولة','4000'],['مانجا','4000'],['باشن فروت','4000'],['خوخ','4000'],['بلو بيري','4000'],['كيوي','4000']]
+  },
+  {
+    id:'iceTea', title:'آيس تي', emoji:'🧊',
+    items:[['خوخ','4000'],['رمان','4000'],['ليمون ونعناع','4000'],['فراولة','4000'],['باشن فروت','4000'],['بلو بيري','4000'],['تفاح أخضر','4000']]
+  },
+  {
+    id:'frappe', title:'فرابيه', emoji:'🥤',
+    items:[['كراميل','4000'],['موكا','4000'],['بستاشيو','4000']]
+  },
+  {
+    id:'hibiscus', title:'كركديه', emoji:'🌺',
+    items:[['كركديه','4000'],['كركديه سِر','5000']]
+  },
+  {
+    id:'milkshake', title:'ميلك شيك', emoji:'🥛',
+    items:[['اوريو','4000'],['لوتس','4000'],['موكا','4000'],['بستاشيو','4000'],['فراولة','4000']]
+  },
+  {
+    id:'specialty', title:'قهوة مختصة', emoji:'☕',
+    items:[['كولد برو',''],['اسبريسو مختص',''],['V60','']]
+  },
+  {
+    id:'desserts', title:'حلويات', emoji:'🍰',
+    items:[['مافن','3000'],['سندويتش ستراكنوف','4000'],['براونيز','3000'],['كرواسون','4000'],['كوكيز','2000'],['سان سبيستيان','5000'],['ميني جيز كيك','3000']]
+  }
+];
+
+let activeCategory='all';
+
+function esc(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function cardHTML(item){
+  const [name,price,badge] = item;
+  return `
+    <article class="card menu-item" data-name="${esc(name)}">
+      <div class="photo">
+        ${badge ? `<div class="new">${esc(badge)}</div>` : ''}
+        <div class="placeholder">سِر</div>
+      </div>
+      <div class="info">
+        <div class="name">${esc(name)}</div>
+        <div class="item-price">${price ? esc(Number(price).toLocaleString('en-US'))+' د.ع' : 'حسب الاختيار'}</div>
+      </div>
+    </article>`;
+}
+
+function render(){
+  const menu=document.getElementById('menu');
+  menu.innerHTML=sections.map(sec => {
+    if(activeCategory!=='all' && activeCategory!==sec.id) return '';
+    return `
+      <section class="section" data-section="${sec.id}">
+        <div class="section-head">
+          <h2>${sec.emoji} ${sec.title}</h2>
+          <span>${sec.items.length} عناصر</span>
+        </div>
+        <div class="grid">${sec.items.map(cardHTML).join('')}</div>
+      </section>`;
+  }).join('');
+  searchItems();
+}
+
+function filterCategory(id,btn){
+  activeCategory=id;
+  document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('searchInput').value='';
+  render();
+  window.scrollTo({top:document.getElementById('menu').offsetTop-20,behavior:'smooth'});
+}
+
+function searchItems(){
+  const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  let visible=0;
+  document.querySelectorAll('.menu-item').forEach(card=>{
+    const match=card.dataset.name.toLowerCase().includes(q);
+    card.style.display=match?'block':'none';
+    if(match) visible++;
+  });
+  document.querySelectorAll('.section').forEach(section=>{
+    const any=[...section.querySelectorAll('.menu-item')].some(x=>x.style.display!=='none');
+    section.style.display=any?'block':'none';
+  });
+  document.getElementById('noResults').style.display=visible?'none':'block';
+}
+
+render();
+</script>
+
+</body>
+</html>
+'''
+
 path = Path("/mnt/data/index.html")
-html = path.read_text(encoding="utf-8")
-
-# تعديل اسم الشعار الظاهر في الهيدر إلى "سِرّ"
-html = html.replace('<div class="logo">سِر</div>', '<div class="logo">سِرّ</div>')
-html = html.replace('<h1>سِر</h1>', '<h1>سِرّ</h1>')
-
 path.write_text(html, encoding="utf-8")
-print("تم تعديل الشعار إلى: سِرّ")
-print(path)
+print(f"تم إنشاء الملف: {path}")
