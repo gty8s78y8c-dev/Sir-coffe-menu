@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>سِر | Sir Coffee</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Cairo',sans-serif;
+    background:#f4eee5;
+    color:#263b3f;
+}
+
+.container{
+    width:100%;
+    max-width:650px;
+    margin:auto;
+    padding-bottom:40px;
+}
+
+/* الهيدر */
+.hero{
+    min-height:270px;
+    padding:35px 20px 30px;
+    text-align:center;
+    background:
+    radial-gradient(circle at top right,rgba(69,162,191,.22),transparent 35%),
+    linear-gradient(145deg,#263f44,#315e67);
+    color:white;
+    border-radius:0 0 35px 35px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:50%;
+    left:-80px;
+    bottom:-110px;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    margin:auto;
+    border:2px solid rgba(255,255,255,.65);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    font-weight:700;
+}
+
+.hero h1{
+    margin-top:14px;
+    font-size:34px;
+}
+
+.hero p{
+    margin-top:4px;
+    opacity:.8;
+    font-size:14px;
+}
+
+/* أزرار التواصل */
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:22px;
+    position:relative;
+    z-index:2;
+}
+
+.actions a{
+    text-decoration:none;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.10);
+    padding:9px 15px;
+    border-radius:30px;
+    font-size:13px;
+    backdrop-filter:blur(8px);
+}
+
+/* الأقسام */
+.menu{
+    padding:25px 16px;
+}
+
+.category{
+    margin-bottom:30px;
+}
+
+.category-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.category-title h2{
+    font-size:21px;
+    color:#263f44;
+}
+
+.line{
+    height:1px;
+    background:#cdbfae;
+    flex:1;
+}
+
+/* الايتم */
+.item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    background:rgba(255,255,255,.72);
+    padding:10px;
+    margin-bottom:11px;
+    border-radius:18px;
+    box-shadow:0 5px 18px rgba(45,55,55,.07);
+    border:1px solid rgba(255,255,255,.8);
+}
+
+.item-image{
+    width:76px;
+    height:76px;
+    border-radius:15px;
+    object-fit:cover;
+    background:#ded5c8;
+    flex-shrink:0;
+}
+
+.item-info{
+    flex:1;
+}
+
+.item-top{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    align-items:center;
+}
+
+.item-name{
+    font-size:16px;
+    font-weight:700;
+    color:#263f44;
+}
+
+.price{
+    white-space:nowrap;
+    color:#31849d;
+    font-weight:800;
+    font-size:15px;
+}
+
+.description{
+    margin-top:3px;
+    font-size:11px;
+    line-height:1.7;
+    color:#777;
+}
+
+/* ستيكر */
+.badge{
+    display:inline-block;
+    background:#e3f0f2;
+    color:#31849d;
+    padding:2px 7px;
+    border-radius:10px;
+    font-size:9px;
+    margin-top:5px;
+}
+
+/* الفوتر */
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#777;
+    font-size:12px;
+}
+
+.footer strong{
+    color:#315e67;
+    font-size:16px;
+}
+
+@media(max-width:400px){
+    .item-image{
+        width:68px;
+        height:68px;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- الهيدر -->
+<header class="hero">
+
+    <div class="logo">سِر</div>
+
+    <h1>سِر</h1>
+    <p>لكل حبة قهوة حكاية</p>
+
+    <div class="actions">
+        <a href="https://instagram.com/srrcoffeshop" target="_blank">
+            Instagram
+        </a>
+
+        <a href="tel:+9640000000000">
+            اتصال
+        </a>
+
+        <a href="https://maps.google.com" target="_blank">
+            الموقع
+        </a>
+    </div>
+
+</header>
+
+
+<main class="menu">
+
+
+<!-- ================= القهوة الساخنة ================= -->
+
+<section class="category">
+
+<div class="category-title">
+    <h2>☕ القهوة الساخنة</h2>
+    <div class="line"></div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">لاتيه</span>
+            <span class="price">٤٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            قهوة إسبرسو مع حليب ناعم بقوام متوازن.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">كابتشينو</span>
+            <span class="price">٤٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            إسبرسو غني مع حليب ورغوة ناعمة.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">أمريكانو</span>
+            <span class="price">٣٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            إسبرسو مع ماء ساخن بطعم قهوة واضح ومتوازن.
+        </p>
+
+    </div>
+</div>
+
+</section>
+
+
+<!-- ================= القهوة الباردة ================= -->
+
+<section class="category">
+
+<div class="category-title">
+    <h2>🧊 القهوة الباردة</h2>
+    <div class="line"></div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">آيس لاتيه</span>
+            <span class="price">٤٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            قهوة باردة وحليب بقوام ناعم ومنعش.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">سر كلاوود</span>
+            <span class="price">٥٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            قوام كريمي ناعم، حلاوة متوازنة ومذاق غني بانسيابية مميزة.
+        </p>
+
+        <span class="badge">NEW</span>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">كراميل ماكياتو</span>
+            <span class="price">٥٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            قهوة باردة بطابع كراميل ناعم ومتوازن.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">غولدن لاتيه</span>
+            <span class="price">٥٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            مزيج ناعم بطابع غني ولمسة مميزة.
+        </p>
+
+    </div>
+</div>
+
+</section>
+
+
+<!-- ================= الماتشا ================= -->
+
+<section class="category">
+
+<div class="category-title">
+    <h2>🍵 ماتشا</h2>
+    <div class="line"></div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">ماتشا لاتيه</span>
+            <span class="price">٥٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            ماتشا ناعمة مع حليب بقوام كريمي.
+        </p>
+
+    </div>
+</div>
+
+</section>
+
+
+<!-- ================= الموهيتو ================= -->
+
+<section class="category">
+
+<div class="category-title">
+    <h2>🍹 موهيتو</h2>
+    <div class="line"></div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">كلاسيك</span>
+            <span class="price">٤٬٠٠٠</span>
+        </div>
+
+        <p class="description">
+            منعش وخفيف بطعم الحمضيات والنعناع.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">فراولة</span>
+            <span class="price">٤٬٥٠٠</span>
+        </div>
+
+        <p class="description">
+            نكهة فراولة منعشة بطابع خفيف.
+        </p>
+
+    </div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">باشن فروت</span>
+            <span class="price">٤٬٥٠٠</span>
+        </div>
+
+        <p class="description">
+            نكهة استوائية منعشة ومتوازنة.
+        </p>
+
+    </div>
+</div>
+
+</section>
+
+
+<!-- ================= حلويات ================= -->
+
+<section class="category">
+
+<div class="category-title">
+    <h2>🍰 الحلويات</h2>
+    <div class="line"></div>
+</div>
+
+
+<div class="item">
+
+    <img class="item-image"
+    src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80">
+
+    <div class="item-info">
+
+        <div class="item-top">
+            <span class="item-name">كيك</span>
+            <span class="price">حسب الاختيار</span>
+        </div>
+
+        <p class="description">
+            تشكيلة حلويات يومية تناسب قهوتك.
+        </p>
+
+    </div>
+</div>
+
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+
+    <strong>سِر</strong>
+
+    <p>لكل حبة قهوة حكاية ☕</p>
+
+    <p style="margin-top:8px;">
+        حي المهندسين مقابل كلية الحقوق — الموصل
+    </p>
+
+</footer>
+
+</div>
+
+</body>
+</html>
